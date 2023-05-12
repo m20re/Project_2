@@ -1,15 +1,19 @@
 import PySimpleGUI as sg
 from user import *
 
-def update_screen():
+def update_screen() -> None:
     window['-NAMETEXT-'].update(f'Name: {full_name}')
     window['-GENDERTEXT-'].update(f'Gender: {gender}')
     window['-EMAILTEXT-'].update(f'Email: {email}')
-    return
+    display_image(img_url)
+
+def display_image(url):
+    window["-IMAGE-"].update(data=get_image_bytes(url))
+
 
 layout = [
     [sg.Text('Random User Generator', enable_events=True, font=("Arial", 24), key = '-HEADERTEXT-')],
-    [sg.Text('Name: ', font=("Arial", 12), key='-NAMETEXT-'), sg.Image(key='Image')],
+    [sg.Text('Name: ', font=("Arial", 12), key='-NAMETEXT-'), sg.Push(), sg.Image(key='-IMAGE-')],
     [sg.Text('Gender: ', font=("Arial", 12), key='-GENDERTEXT-')],
     [sg.Text('Email: ', font=("Arial", 12), key='-EMAILTEXT-')],
     [sg.Push(), sg.Button('Generate User', font=("Arial", 12), key='-BUTTON-')]
@@ -26,9 +30,7 @@ while True:
         break
 
     if event == '-BUTTON-':
-        full_name, gender, email = generate_user_info()
+        full_name, gender, email, img_url = generate_user_info()
         update_screen()
-        
-
 
 window.close()
