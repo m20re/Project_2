@@ -1,15 +1,35 @@
 from randomuser import RandomUser
 from PIL import Image
-import requests, io
+import requests, io, secrets, string
 
-def generate_user_info()-> list:
+def generate_user_info() -> tuple:
+    """
+    creates a user from Random User API
+    :return: returns the following: full name, gender
+     email, phone, username, password, picture
+    """
     user = RandomUser()
     return user.get_full_name(), user.get_gender(), user.get_email(), user.get_phone(), user.get_username(), user.get_password(), user.get_picture()
 
     
 def get_image_bytes(image_url) -> io:
+    """
+    gets a image url from RandomUser, sets the thumbnail to 500, 500
+     convert the file into byte so it can be saved in the memory
+    :return: bio.getvalue()
+     """
     im = Image.open(requests.get(url=image_url, stream=True).raw)
     im.thumbnail((500,500))
     bio = io.BytesIO()
     im.save(bio, format="PNG")
     return bio.getvalue()
+
+def generate_new_password() -> string:
+    """
+    generates a new password by using secrets and string module
+    :return: 8 digit password
+    """
+
+    alphabet = string.ascii_letters + string.digits
+    password = ''.join(secrets.choice(alphabet) for i in range(8))
+    return password
