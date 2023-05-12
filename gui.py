@@ -21,7 +21,6 @@ def display_password_error() -> None:
     """displays password error message if NameError is raised
     :return: None
     """
-
     window['-ERRORTEXT-'].update(visible=True)
 
 def hide_password_error() -> None:
@@ -50,7 +49,7 @@ layout = [
     [sg.Text('Generate a user first', font=("Arial", 12), visible=False, justification='c', key='-ERRORTEXT-')]
     ]
 
-window = sg.Window('Converter', layout)
+window = sg.Window('Random User', layout)
 ISFIRST = True
 ISERROR = False
 
