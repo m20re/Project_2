@@ -1,6 +1,6 @@
 from randomuser import RandomUser
 from PIL import Image
-import requests, io, secrets, string
+import requests, io, secrets, string, csv
 
 def generate_user_info() -> tuple:
     """
@@ -12,7 +12,7 @@ def generate_user_info() -> tuple:
     return user.get_full_name(), user.get_gender(), user.get_email(), user.get_phone(), user.get_username(), user.get_password(), user.get_picture()
 
     
-def get_image_bytes(image_url) -> io:
+def get_image_bytes(image_url: str) -> io:
     """
     gets a image url from RandomUser, sets the thumbnail to 500, 500
      convert the file into byte so it can be saved in the memory
@@ -33,3 +33,15 @@ def generate_new_password() -> string:
     alphabet = string.ascii_letters + string.digits
     password = ''.join(secrets.choice(alphabet) for i in range(8))
     return password
+
+def write_header_csv(file: str) -> None:
+    with open(file, "w") as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(['full name', 'gender', 'email', 'phone', 'username', 'password', 'image_url'])
+    return
+
+def write_user_row_csv(data: list, file: str):
+    with open(file, "a") as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(data)
+    return

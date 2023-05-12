@@ -34,7 +34,7 @@ layout = [
     [sg.Button('Generate New Password', font=("Arial", 12), key='-BUTTON2-'), sg.Push(), sg.Button('Generate User', font=("Arial", 12), key='-BUTTON-')]
     ]
 window = sg.Window('Converter', layout)
-
+ISFIRST = True
 
 while True:
     event, values = window.read()
@@ -43,8 +43,13 @@ while True:
         break
 
     if event == '-BUTTON-':
+        
         full_name, gender, email, phone, username, password, img_url = generate_user_info()
         update_screen()
+        if ISFIRST:
+            write_header_csv('output.csv')
+            ISFIRST = False
+
     
     if event == '-BUTTON2-':
         window['-PASSWORDTEXT-'].update(f'Password: {generate_new_password()}')
