@@ -24,7 +24,7 @@ def get_image_bytes(image_url: str) -> io:
     im.save(bio, format="PNG")
     return bio.getvalue()
 
-def generate_new_password() -> string:
+def generate_new_password() -> str:
     """
     generates a new password by using secrets and string module
     :return: 8 digit password
@@ -34,16 +34,29 @@ def generate_new_password() -> string:
     return password
 
 def generate_new_name(data: list) -> str:
-    user = RandomUser()
-    return user.get_full_name()
+    """
+    generates a new name in the scenario where non utf-8
+     appears
+    :return: new name
+    """
+    return generate_user_info()[0]
 
 def write_header_csv(file: str) -> None:
+    """
+    creates, or ovewrites, a new file and writes a header to it
+    :return: None
+    """
     with open(file, "w", newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['full name', 'gender', 'email', 'phone', 'username', 'password', 'image_url'])
     return
 
-def write_user_row_csv(data: list, file: str):
+def write_user_row_csv(data: list, file: str) -> None:
+    """
+    writes user information in csv format, if a character cannot be encoded,
+     generate a new name
+    :return: None
+    """
     with open(file, "a", newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
 

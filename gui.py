@@ -4,6 +4,7 @@ from user import *
 def update_screen() -> None:
     """
     Updates all of the screen elements to reflect new user data
+    Checks if an error occured to hide it
     :return: None
     """
     if ISERROR:
@@ -17,18 +18,23 @@ def update_screen() -> None:
     display_image(user_data[6])
 
 def display_password_error() -> None:
+    """displays password error message if NameError is raised
+    :return: None
+    """
+
     window['-ERRORTEXT-'].update(visible=True)
 
 def hide_password_error() -> None:
+    """hides password error message upon user data generation
+    :return: None
+    """
     window['-ERRORTEXT-'].update(visible=False)
 
-def display_image(url) -> None:
+def display_image(url: str) -> None:
     """
     Displays the image within the gui
     :return: None
     """
-
-
     window["-IMAGE-"].update(data=get_image_bytes(url))
 
 layout = [
@@ -43,6 +49,7 @@ layout = [
     [sg.Button('Generate New Password', font=("Arial", 12), key='-BUTTON2-'), sg.Push(), sg.Button('Generate User', font=("Arial", 12), key='-BUTTON-')],
     [sg.Text('Generate a user first', font=("Arial", 12), visible=False, justification='c', key='-ERRORTEXT-')]
     ]
+
 window = sg.Window('Converter', layout)
 ISFIRST = True
 ISERROR = False
@@ -70,7 +77,5 @@ while True:
         except NameError:
             ISERROR = True
             display_password_error()
-
-
 
 window.close()
